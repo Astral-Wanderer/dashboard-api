@@ -5,5 +5,5 @@ export const pool = new Pool({
   port: Number(process.env.DB_PORT) || 5432,
   database: process.env.DB_NAME || 'dashboard_db',
   user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
+  password: process.env.DB_PASSWORD || 'Crazystory.3',
 });
