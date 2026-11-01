@@ -61,3 +61,27 @@ export async function deleteTask(
   );
   return (rowCount ?? 0) > 0;
 }
+
+
+export async function getDashboardStats() {
+  const { rows } = await pool.query(`
+    SELECT
+      COUNT(*) AS total_tasks,
+      COUNT(*) FILTER (WHERE status='DONE') AS done_tasks,
+      COUNT(*) FILTER (WHERE status='IN_PROGRESS') AS in_progress_tasks,
+      COUNT(*) FILTER (WHERE status='TODO') AS todo_tasks,
+      (SELECT COUNT(*) FROM projects) AS total_projects
+    FROM tasks
+  `);
+
+  const r = rows[0];
+
+  return {
+    totalTasks: Number(r.total_tasks),
+    doneTasks: Number(r.done_tasks),
+    inProgressTasks: Number(r.in_progress_tasks),
+    todoTasks: Number(r.todo_tasks),
+    totalProjects: Number(r.total_projects),
+  };
+}
+
