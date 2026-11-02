@@ -15,8 +15,27 @@ export const resolvers = {
       PR.createProject(name, description),
     deleteProject: (_: unknown, { id }: { id: string }) =>
       PR.deleteProject(id),
-    createTask: (_: unknown, args: any) =>
-      TR.createTask(args.title, args.description, args.status, args.projectId),
+
+    createTask: (_: unknown, args: any) => {
+        const VALID_STATUSES = ['TODO', 'IN_PROGRESS', 'DONE'];
+
+        if (!args.title?.trim())
+            throw new Error('Title is required');
+
+        if (!args.projectId)
+            throw new Error('projectId is required');
+
+        if (!VALID_STATUSES.includes(args.status))
+            throw new Error(`Invalid status: ${args.status}`);
+
+        return TR.createTask(
+            args.title.trim(),
+            args.description ?? '',
+            args.status,
+            args.projectId
+        );
+    },
+
     updateTask: (_: unknown, args: any) =>
       TR.updateTask(args.id, args.title, args.description, args.status),
     deleteTask: (_: unknown, { id }: { id: string }) =>
