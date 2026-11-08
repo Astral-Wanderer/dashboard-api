@@ -45,17 +45,18 @@ npm install
 ```bash
 psql -U postgres -d dashboard_db -f src/db/schema.sql
 ```
+5. Create a .env file in the dashboard-api folder and add your PostgreSQL connection settings (DB_HOST, DB_PORT, DB_NAME, DB_USER and DB_PASSWORD).
 
-5. Check the database settings in `src/db/pool.ts`.
+6. Check the database settings in `src/db/pool.ts`.
 
    By default, the app connects to PostgreSQL on `localhost:5432` with the database name `dashboard_db` and the user `postgres`.
 
    The database password can be set using the `DB_PASSWORD` environment variable.
 
-6. Start the backend:
+7. Start the backend:
 
 ```bash
-npx ts-node src/server.ts
+node --env-file=.env -r ts-node/register src/server.ts
 ```
 
 The GraphQL API runs at:
